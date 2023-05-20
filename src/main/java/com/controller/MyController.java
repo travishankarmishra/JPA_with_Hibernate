@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.List;
 
 import com.model.Address;
+import com.model.Laptop;
 import com.model.UserModel;
 
 import jakarta.persistence.EntityManager;
@@ -20,7 +21,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.Part;
 
-@WebServlet({ "/insert", "/show", "/delete" })
+@WebServlet({ "/insert", "/show", "/delete", "/lapinsert" })
 @MultipartConfig(fileSizeThreshold = 10000000, maxFileSize = 1000000, maxRequestSize = 1000000)
 public class MyController extends HttpServlet {
 	EntityManager em = null;
@@ -34,24 +35,41 @@ public class MyController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-		String name = req.getParameter("name");
-		String email = req.getParameter("email");
-		String password = req.getParameter("password");
-		String mobile = req.getParameter("mobile");
-		String filename = req.getPart("file").getSubmittedFileName();
-		for (Part p : req.getParts()) {
-			p.write("/home/ducat/Documents/Java_Projects/JPA_with_Hibernate/src/main/webapp/upload/" + filename);
+		if (req.getServletPath().equals("/lapinsert")) {
+			String name = req.getParameter("name");
+			String model = req.getParameter("model");
+			int price = Integer.parseInt(req.getParameter("price"));
+
+			Laptop laptop = new Laptop(name, model, price);
+			em.getTransaction().begin();
+			em.persist(laptop);
+			em.getTransaction().commit();
+
+		} else {
+
+			String name = req.getParameter("name");
+			String email = req.getParameter("email");
+			String password = req.getParameter("password");
+			String mobile = req.getParameter("mobile");
+			String filename = req.getPart("file").getSubmittedFileName();
+			for (Part p : req.getParts()) {
+				p.write("/home/ducat/Documents/Java_Projects/JPA_with_Hibernate/src/main/webapp/upload/" + filename);
+			}
+			Address add = new Address("T4561A", "Shiv Temple", "New Delhi", "Delhi", "India");
+			UserModel um = new UserModel(name, email, password, mobile, filename, add);
+
+			String lname = req.getParameter("lname");
+			String model = req.getParameter("model");
+			int price = Integer.parseInt(req.getParameter("price"));
+
+			Laptop laptop = new Laptop(lname, model, price);
+			
+			um.setLaptop(laptop);
+			
+			em.getTransaction().begin();
+			em.persist(um); // to save
+			em.getTransaction().commit();
 		}
-
-		Address add = new Address("T4561A", "Shiv Temple", "New Delhi", "Delhi", "India");
-		
-		UserModel um = new UserModel(name, email, password, mobile, filename,add);
-
-		
-		
-		em.getTransaction().begin();
-		em.persist(um); // to save
-		em.getTransaction().commit();
 
 	}
 
