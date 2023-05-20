@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.model.Address;
 import com.model.Laptop;
+import com.model.School;
 import com.model.UserModel;
 
 import jakarta.persistence.EntityManager;
@@ -66,8 +67,24 @@ public class MyController extends HttpServlet {
 			
 			um.setLaptop(laptop);
 			
+			String sname = req.getParameter("sname");
+			
+			String sloc = req.getParameter("sloc");
+			String slandmark = req.getParameter("slandmark");
+			String scity = req.getParameter("scity");
+			String sstate = req.getParameter("sstate");
+			String scountry = req.getParameter("scountry");
+			
+			Address address2 = new Address(sloc, slandmark, scity, sstate, scountry);
+			
+			School sc = new School(sname, address2);
+			sc.getUserModel().add(um);
+//			um.setSchool(sc);
+			
+			
 			em.getTransaction().begin();
-			em.persist(um); // to save
+//			em.persist(um); // to save
+			em.persist(sc);
 			em.getTransaction().commit();
 		}
 

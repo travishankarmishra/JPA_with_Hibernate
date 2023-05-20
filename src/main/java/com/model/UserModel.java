@@ -6,6 +6,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
 @Entity(name = "UserModel")
@@ -24,6 +26,16 @@ public class UserModel {
 
 	@OneToOne(cascade = CascadeType.ALL)
 	Laptop laptop;
+	@ManyToOne(cascade = CascadeType.ALL)
+	School school;
+
+	public School getSchool() {
+		return school;
+	}
+
+	public void setSchool(School school) {
+		this.school = school;
+	}
 
 	public Laptop getLaptop() {
 		return laptop;
