@@ -1,11 +1,13 @@
 package com.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.model.Address;
 import com.model.Laptop;
 import com.model.School;
+import com.model.Skills;
 import com.model.UserModel;
 
 import jakarta.persistence.EntityManager;
@@ -52,6 +54,7 @@ public class MyController extends HttpServlet {
 			String email = req.getParameter("email");
 			String password = req.getParameter("password");
 			String mobile = req.getParameter("mobile");
+			String skill = req.getParameter("skill");
 			String filename = req.getPart("file").getSubmittedFileName();
 			for (Part p : req.getParts()) {
 				p.write("/home/ducat/Documents/Java_Projects/JPA_with_Hibernate/src/main/webapp/upload/" + filename);
@@ -81,13 +84,30 @@ public class MyController extends HttpServlet {
 			sc.getUserModel().add(um);
 //			um.setSchool(sc);
 			
+			Skills s1 = new Skills(skill);
+			Skills s2 = new Skills("Java");
+			Skills s3 = new Skills("Angular");
+			
+			List<Skills> data = new ArrayList<Skills>();
+			data.add(s1);
+			data.add(s2);
+			data.add(s3);
+			
+			um.setSkills(data);
+			
+			UserModel um2 = new UserModel("name", "email@gmail.com", "passw", "mobile", "filename.jpg", address2);
+			
+			data.get(0).getUserModel().add(um2);
+			data.get(2).getUserModel().add(um2);
+			
+			um2.setSkills(data);
+			
 			
 			em.getTransaction().begin();
 //			em.persist(um); // to save
 			em.persist(sc);
 			em.getTransaction().commit();
 		}
-
 	}
 
 	@Override

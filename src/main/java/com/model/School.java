@@ -31,6 +31,9 @@ public class School {
 		this.address = address;
 	}
 
+	public School() {
+		// TODO Auto-generated constructor stub
+	}
 	
 	public List<UserModel> getUserModel() {
 		return userModel;

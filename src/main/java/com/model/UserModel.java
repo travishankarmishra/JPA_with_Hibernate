@@ -1,11 +1,16 @@
 package com.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
@@ -17,8 +22,11 @@ public class UserModel {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	int sno;
 	String name;
+	@Column(unique = true, nullable = false)
 	String email;
+	@Column(length = 5, updatable = true)
 	String password;
+	@Column(length = 10)
 	String mobile;
 	String filename;
 	@Embedded
@@ -28,6 +36,17 @@ public class UserModel {
 	Laptop laptop;
 	@ManyToOne(cascade = CascadeType.ALL)
 	School school;
+
+	@ManyToMany(cascade = CascadeType.ALL)
+	List<Skills> skills = new ArrayList<Skills>();
+
+	public List<Skills> getSkills() {
+		return skills;
+	}
+
+	public void setSkills(List<Skills> skills) {
+		this.skills = skills;
+	}
 
 	public School getSchool() {
 		return school;

@@ -19,7 +19,9 @@ public class Laptop {
 	@OneToOne(mappedBy = "laptop")
 	UserModel userModel;
 	
-	
+	public Laptop() {
+		// TODO Auto-generated constructor stub
+	}
 	
 	public UserModel getUserModel() {
 		return userModel;

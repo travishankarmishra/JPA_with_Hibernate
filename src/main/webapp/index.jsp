@@ -5,6 +5,7 @@
 	<input type="email" placeholder="Email" name="email"><br>
 	<input type="password" placeholder="Password" name="password"><br>
 	<input type="file" name="file"><br>
+	<input type="text" placeholder="Skill" name="skill">
 <!-- 	<input type="submit">
 </form>
 
